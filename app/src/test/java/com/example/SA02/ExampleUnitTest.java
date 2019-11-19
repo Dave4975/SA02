@@ -1,4 +1,4 @@
-package com.example.roomwordssample;
+package com.example.SA02;
 
 import org.junit.Test;
 

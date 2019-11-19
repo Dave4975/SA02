@@ -27,7 +27,7 @@ import java.util.List;
         public void onBindViewHolder(ValuesViewHolder holder, int position) {
             if (mValues != null) {
                 Values current = mValues.get(position);
-                holder.valueItemView.setText(current.getValue());
+                holder.valueItemView.setText(Long.toString(current.getMileage()));
             } else {
                 // Covers the case of data not being ready yet.
                 holder.valueItemView.setText("No Values");

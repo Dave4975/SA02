@@ -7,9 +7,21 @@
     android:padding="24dp">
 
     <EditText
-        android:id="@+id/edit_word"
+        android:id="@+id/edit_mileage"
         style="@style/text_view_style"
-        android:hint="@string/hint"
+        android:hint="@string/milHint"
+        android:inputType="textAutoComplete" />
+
+    <EditText
+        android:id="@+id/edit_cost"
+        style="@style/text_view_style"
+        android:hint="@string/costHint"
+        android:inputType="textAutoComplete" />
+
+    <EditText
+        android:id="@+id/edit_amount"
+        style="@style/text_view_style"
+        android:hint="@string/amHint"
         android:inputType="textAutoComplete" />
 
     <Button

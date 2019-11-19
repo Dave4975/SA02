@@ -7,11 +7,30 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "value_table")
 public class Values {
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
     @NonNull
-    @ColumnInfo(name = "value")
-    private String mValue;
+    @ColumnInfo(name = "id")
+    private int mId;
+    @NonNull
+    @ColumnInfo(name = "mileage")
+    private Long mMileage;
+    @NonNull
+    @ColumnInfo(name = "cost")
+    private double mCost;
+    @NonNull
+    @ColumnInfo(name = "amount")
+    private double mAmount;
 
-    public Values(@NonNull String value) {this.mValue = value;}
-    public String getValue(){return this.mValue;}
+    //Constructor
+    public Values(@NonNull int id, @NonNull long mileage, @NonNull double cost, @NonNull double amount) {
+        this.mId = id;
+        this.mMileage = mileage;
+        this.mCost = cost;
+        this.mAmount = amount;
+    }
+
+    public int getId(){return this.mId;}
+    public long getMileage(){return this.mMileage;}
+    public double getCost(){return this.mCost;}
+    public double getAmount(){return this.mAmount;}
 }

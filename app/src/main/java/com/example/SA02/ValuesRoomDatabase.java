@@ -9,7 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Values.class}, version = 1, exportSchema = false)
+@Database(entities = {Values.class}, version = 2, exportSchema = false)
 public abstract class ValuesRoomDatabase extends RoomDatabase {
     public abstract ValuesDAO valueDao();
 
@@ -30,14 +30,14 @@ public abstract class ValuesRoomDatabase extends RoomDatabase {
                 @Override
                 public void onOpen (@NonNull SupportSQLiteDatabase db){
                     super.onOpen(db);
-                    new PopulateDbAsync(INSTANCE).execute();
+                    //new PopulateDbAsync(INSTANCE).execute();
                 }
             };
-
+/*
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final ValuesDAO mDao;
-        String[] words = {"dolphin", "cobra"};
+        //String[] words = {"dolphin", "cobra"};
 
         PopulateDbAsync(ValuesRoomDatabase db) {
             mDao = db.valueDao();
@@ -55,5 +55,5 @@ public abstract class ValuesRoomDatabase extends RoomDatabase {
             }
             return null;
         }
-    }
+    }*/
 }

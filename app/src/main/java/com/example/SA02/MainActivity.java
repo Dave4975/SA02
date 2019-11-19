@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 Values myValues = adapter.getValueAtPosition(position);
-                Toast.makeText(MainActivity.this, "Deleting " + myValues.getValue(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Deleting " + myValues.getMileage(), Toast.LENGTH_LONG).show();
                 // Delete the value
                 mValuesViewModel.deleteValue(myValues);
             }
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_VALUES_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Values values = new Values(data.getStringExtra(NewValuesActivity.EXTRA_REPLY));
+            Values values = new Values(null, NewValuesActivity.EXTRA_REPLY, NewValuesActivity.EXTRA_REPLY1, NewValuesActivity.EXTRA_REPLY2);
             mValuesViewModel.insert(values);
         } else {
             Toast.makeText(

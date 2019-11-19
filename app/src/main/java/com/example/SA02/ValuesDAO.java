@@ -13,17 +13,17 @@ import java.util.List;
 public interface ValuesDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Values values);
+    void insert(Values mileage, Values cost, Values amount);
 
     @Query("DELETE FROM `value_table`")
     void deleteAll();
 
-    @Query("SELECT * from `value_table` ORDER BY value ASC")
+    @Query("SELECT * from `value_table` ORDER BY id ASC")
     LiveData<List<Values>> getAllValues();
 
     @Query("SELECT * from `value_table` LIMIT 1")
     Values[] getAnyValue();
 
     @Delete
-    void deleteValue(Values values);
+    void deleteValue(Values id);
 }

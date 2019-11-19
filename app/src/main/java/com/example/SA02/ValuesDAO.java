@@ -10,20 +10,20 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface WordDAO {
+public interface ValuesDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Word word);
+    void insert(Values values);
 
-    @Query("DELETE FROM word_table")
+    @Query("DELETE FROM `value_table`")
     void deleteAll();
 
-    @Query("SELECT * from word_table ORDER BY word ASC")
-    LiveData<List<Word>> getAllWords();
+    @Query("SELECT * from `value_table` ORDER BY value ASC")
+    LiveData<List<Values>> getAllValues();
 
-    @Query("SELECT * from word_table LIMIT 1")
-    Word[] getAnyWord();
+    @Query("SELECT * from `value_table` LIMIT 1")
+    Values[] getAnyValue();
 
     @Delete
-    void deleteWord(Word word);
+    void deleteValue(Values values);
 }

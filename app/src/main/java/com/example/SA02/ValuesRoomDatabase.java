@@ -9,17 +9,17 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Word.class}, version = 1, exportSchema = false)
-public abstract class WordRoomDatabase extends RoomDatabase {
-    public abstract WordDAO wordDao();
+@Database(entities = {Values.class}, version = 1, exportSchema = false)
+public abstract class ValuesRoomDatabase extends RoomDatabase {
+    public abstract ValuesDAO valueDao();
 
-    private static WordRoomDatabase INSTANCE;
+    private static ValuesRoomDatabase INSTANCE;
 
-    public static WordRoomDatabase getDatabase(final Context context) {
+    public static ValuesRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
-            synchronized (WordRoomDatabase.class) {
+            synchronized (ValuesRoomDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), WordRoomDatabase.class, "word_database").fallbackToDestructiveMigration().addCallback(sRoomDatabaseCallback).build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ValuesRoomDatabase.class, "value_database").fallbackToDestructiveMigration().addCallback(sRoomDatabaseCallback).build();
                 }
             }
         }
@@ -36,21 +36,21 @@ public abstract class WordRoomDatabase extends RoomDatabase {
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
-        private final WordDAO mDao;
+        private final ValuesDAO mDao;
         String[] words = {"dolphin", "cobra"};
 
-        PopulateDbAsync(WordRoomDatabase db) {
-            mDao = db.wordDao();
+        PopulateDbAsync(ValuesRoomDatabase db) {
+            mDao = db.valueDao();
         }
 
         @Override
         protected Void doInBackground(final Void... params) {
 
             // If we have no words, then create the initial list of words
-            if (mDao.getAnyWord().length < 1) {
+            if (mDao.getAnyValue().length < 1) {
                 for (int i = 0; i <= words.length - 1; i++) {
-                    Word word = new Word(words[i]);
-                    mDao.insert(word);
+                    Values values = new Values(words[i]);
+                    mDao.insert(values);
                 }
             }
             return null;

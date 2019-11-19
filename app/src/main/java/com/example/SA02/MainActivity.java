@@ -22,8 +22,8 @@ import android.widget.Toast;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private WordViewModel mWordViewModel;
-    public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
+    private ValuesViewModel mValuesViewModel;
+    public static final int NEW_VALUES_ACTIVITY_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +36,23 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NewWordActivity.class);
-                startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
+                Intent intent = new Intent(MainActivity.this, NewValuesActivity.class);
+                startActivityForResult(intent, NEW_VALUES_ACTIVITY_REQUEST_CODE);
             }
         });
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final WordListAdapter adapter = new WordListAdapter(this);
+        final ValuesListAdapter adapter = new ValuesListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mWordViewModel = ViewModelProviders.of(this).get(WordViewModel.class);
+        mValuesViewModel = ViewModelProviders.of(this).get(ValuesViewModel.class);
 
-        mWordViewModel.getAllWords().observe(this, new Observer<List<Word>>() {
+        mValuesViewModel.getAllValues().observe(this, new Observer<List<Values>>() {
             @Override
-            public void onChanged(@Nullable final List<Word> words) {
-                // Update the cached copy of the words in the adapter.
-                adapter.setWords(words);
+            public void onChanged(@Nullable final List<Values> values) {
+                // Update the cached copy of the values in the adapter.
+                adapter.setValues(values);
             }
         });
 
@@ -65,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                Word myWord = adapter.getWordAtPosition(position);
-                Toast.makeText(MainActivity.this, "Deleting " + myWord.getWord(), Toast.LENGTH_LONG).show();
-                // Delete the word
-                mWordViewModel.deleteWord(myWord);
+                Values myValues = adapter.getValueAtPosition(position);
+                Toast.makeText(MainActivity.this, "Deleting " + myValues.getValue(), Toast.LENGTH_LONG).show();
+                // Delete the value
+                mValuesViewModel.deleteValue(myValues);
             }
         });
 
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
 
             // Delete the existing data
-            mWordViewModel.deleteAll();
+            mValuesViewModel.deleteAll();
             return true;
         }
 
@@ -102,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Word word = new Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
-            mWordViewModel.insert(word);
+        if (requestCode == NEW_VALUES_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            Values values = new Values(data.getStringExtra(NewValuesActivity.EXTRA_REPLY));
+            mValuesViewModel.insert(values);
         } else {
             Toast.makeText(
                     getApplicationContext(),

@@ -9,27 +9,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class NewWordActivity extends AppCompatActivity {
+public class NewValuesActivity extends AppCompatActivity {
     public static final String EXTRA_REPLY =
-            "com.example.android.roomwordssample.REPLY";
+            "com.example.android.SA02.REPLY";
 
-    private EditText mEditWordView;
+    private EditText mEditValueView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_word);
-        mEditWordView = findViewById(R.id.edit_word);
+        setContentView(R.layout.activity_new_values);
+        mEditValueView = findViewById(R.id.edit_word);
 
         final Button button = findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
-                if (TextUtils.isEmpty(mEditWordView.getText())) {
+                if (TextUtils.isEmpty(mEditValueView.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
-                    String word = mEditWordView.getText().toString();
-                    replyIntent.putExtra(EXTRA_REPLY, word);
+                    String value = mEditValueView.getText().toString();
+                    replyIntent.putExtra(EXTRA_REPLY, value);
                     setResult(RESULT_OK, replyIntent);
                 }
                 finish();

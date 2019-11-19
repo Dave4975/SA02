@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.SA02.NewWordActivity"></activity>
+        <activity android:name="com.example.SA02.NewValuesActivity"></activity>
         <activity
             android:name="com.example.SA02.MainActivity"
             android:label="@string/app_name"

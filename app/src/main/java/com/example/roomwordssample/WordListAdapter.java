@@ -56,5 +56,9 @@ import java.util.List;
                 wordItemView = itemView.findViewById(R.id.textView);
             }
         }
+
+        public Word getWordAtPosition (int position) {
+            return mWords.get(position);
+        }
     }
 

@@ -8,11 +8,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import java.util.Calendar;
+import java.util.Date;
 
 public class NewValuesActivity extends AppCompatActivity {
-    public static final String EXTRA_REPLY = "com.example.android.SA02.REPLY";
-    public static final String EXTRA_REPLY1 = "com.example.android.SA02.REPLY";
-    public static final String EXTRA_REPLY2 = "com.example.android.SA02.REPLY";
+    public static final String EXTRA_REPLY = "mMileage";
+    public static final String EXTRA_REPLY1 = "mCost";
+    public static final String EXTRA_REPLY2 = "mAmount";
+    public static final String EXTRA_REPLY3 = "mDate";
 
     private EditText mEditMileageView;
     private EditText mEditCostView;
@@ -33,12 +36,15 @@ public class NewValuesActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(mEditMileageView.getText()) || TextUtils.isEmpty(mEditCostView.getText()) || TextUtils.isEmpty(mEditAmountView.getText())) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
-                    String value = mEditMileageView.getText().toString();
-                    String value1 = mEditCostView.getText().toString();
-                    String value2 = mEditAmountView.getText().toString();
+                    int value = Integer.valueOf(String.valueOf(mEditMileageView.getText()));
+                    double value1 = Double.valueOf(String.valueOf(mEditCostView.getText()));
+                    double value2 = Double.valueOf(String.valueOf(mEditAmountView.getText()));
+                    String currentTime = String.valueOf(Calendar.getInstance().getTime());
+
                     replyIntent.putExtra(EXTRA_REPLY, value);
-                    replyIntent.putExtra(EXTRA_REPLY, value1);
-                    replyIntent.putExtra(EXTRA_REPLY, value2);
+                    replyIntent.putExtra(EXTRA_REPLY1, value1);
+                    replyIntent.putExtra(EXTRA_REPLY2, value2);
+                    replyIntent.putExtra(EXTRA_REPLY3, currentTime);
                     setResult(RESULT_OK, replyIntent);
                 }
                 finish();

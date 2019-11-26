@@ -1,6 +1,7 @@
 package com.example.SA02;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +26,15 @@ import java.util.List;
 
         @Override
         public void onBindViewHolder(ValuesViewHolder holder, int position) {
+            holder.valueItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("pressed", "onClick: hello");
+                }
+            });
             if (mValues != null) {
                 Values current = mValues.get(position);
-                holder.valueItemView.setText(Long.toString(current.getMileage()));
+                holder.valueItemView.setText(current.getDate());
             } else {
                 // Covers the case of data not being ready yet.
                 holder.valueItemView.setText("No Values");

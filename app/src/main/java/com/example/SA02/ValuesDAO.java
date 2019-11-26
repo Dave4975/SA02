@@ -13,7 +13,7 @@ import java.util.List;
 public interface ValuesDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Values mileage, Values cost, Values amount);
+    void insert(Values values);
 
     @Query("DELETE FROM `value_table`")
     void deleteAll();

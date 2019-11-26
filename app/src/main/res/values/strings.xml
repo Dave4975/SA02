@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Fuel Planner</string>
     <string name="action_settings">Settings</string>
-    <string name="milHint">Enter mileage (MILES)</string>
+    <string name="milHint">Enter distance travelled (MILES)</string>
     <string name="costHint">Enter cost (£)</string>
     <string name="amHint">Enter amount (LITRES)</string>
     <string name="button_save">Save</string>

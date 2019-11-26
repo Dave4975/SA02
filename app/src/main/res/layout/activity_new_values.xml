@@ -10,19 +10,20 @@
         android:id="@+id/edit_mileage"
         style="@style/text_view_style"
         android:hint="@string/milHint"
-        android:inputType="textAutoComplete" />
+        android:inputType="none|number"
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/edit_cost"
         style="@style/text_view_style"
         android:hint="@string/costHint"
-        android:inputType="textAutoComplete" />
+        android:inputType="none|number|textAutoComplete" />
 
     <EditText
         android:id="@+id/edit_amount"
         style="@style/text_view_style"
         android:hint="@string/amHint"
-        android:inputType="textAutoComplete" />
+        android:inputType="none|number|textAutoComplete" />
 
     <Button
         android:id="@+id/button_save"

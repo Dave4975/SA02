@@ -6,5 +6,7 @@
     <string name="amHint">Enter amount (LITRES)</string>
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Values not saved because a field was empty.</string>
+    <string name="not_found">Entry was not found. Entry may have been deleted.</string>
     <string name="clear_all_data">Clear all data</string>
+    <string name="fuel_label">Fuel used \n Gallons/Litres</string>
 </resources>

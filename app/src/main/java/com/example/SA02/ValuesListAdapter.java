@@ -36,14 +36,14 @@ import java.util.List;
         public void onBindViewHolder(ValuesViewHolder holder, int position) {
 
             if (mValues != null) {
-                Values current = mValues.get(position);
+                final Values current = mValues.get(position);
                 holder.valueItemView.setText(current.getDate());
 
                 holder.valueItemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(weakContext.get(), ShowData.class);
-                        String extra = toString(current);
+                        int extra = current.getId();
                         intent.putExtra(EXTRA_MESSAGE_KEY, extra);
                         weakContext.get().startActivity(intent);
                     }

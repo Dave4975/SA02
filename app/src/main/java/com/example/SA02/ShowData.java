@@ -22,35 +22,39 @@ public class ShowData extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_data);
-        int currentId;
         final ValuesListAdapter adapter = new ValuesListAdapter(this);
         ValuesViewModel mValuesViewModel;
 
         mValuesViewModel = ViewModelProviders.of(this).get(ValuesViewModel.class);
 
         mValuesViewModel.getAllValues().observe(this, new Observer<List<Values>>() {
+
             @Override
             public void onChanged(@Nullable final List<Values> values) {
                 // Update the cached copy of the values in the adapter.
                 adapter.setValues(values);
+                final int currentId;
+
+                try {
+                    currentId = getIntent().getIntExtra(EXTRA_MESSAGE_KEY, 0);
+                    //Log.d("Nick", String.valueOf(currentId)
+                    Values myValues = adapter.getValueAtPosition(currentId);
+
+                    adapter.getItemCount();
+
+                    final String edittext = String.valueOf(myValues.getAmount());
+                    setContentView(R.layout.activity_show_data);
+                    TextView mText = (TextView) findViewById(R.id.fuel_litres);
+                    mText.setText(edittext);
+                }
+                catch(Exception e) {
+                    Log.d("Nick", String.valueOf(e));
+                    Toast.makeText(
+                            getApplicationContext(),
+                            R.string.not_found,
+                            Toast.LENGTH_LONG).show();
+                }
             }
-
-        try {
-            currentId = getIntent().getIntExtra(EXTRA_MESSAGE_KEY, 0);
-            //Log.d("Nick", String.valueOf(currentId)
-            Values myValues = adapter.getValueAtPosition(currentId);
-
-            final String edittext = String.valueOf(myValues.getAmount());
-            setContentView(R.layout.activity_show_data);
-            TextView mText = (TextView) findViewById(R.id.fuel_litres);
-            mText.setText(edittext);
-        }
-        catch(IndexOutOfBoundsException e) {
-            Log.d("Nick", String.valueOf(e));
-            Toast.makeText(
-                    getApplicationContext(),
-                    R.string.not_found,
-                    Toast.LENGTH_LONG).show();
-        }
+        });
     }
 }

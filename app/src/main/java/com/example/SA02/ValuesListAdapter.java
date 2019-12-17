@@ -43,7 +43,7 @@ import java.util.List;
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(weakContext.get(), ShowData.class);
-                        int extra = current.getId();
+                        int extra = position;
                         intent.putExtra(EXTRA_MESSAGE_KEY, extra);
                         weakContext.get().startActivity(intent);
                     }

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +18,6 @@
         android:id="@+id/fuel_label"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
         android:text="@string/fuel_label"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/fuel_gallons"
@@ -20,17 +25,19 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.666" />
 
     <TextView
         android:id="@+id/fuel_gallons"
         style="@style/text_view_style"
         android:layout_width="169dp"
         android:layout_height="48dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="196dp"
+        android:layout_marginRight="196dp"
         android:inputType="none"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -40,7 +47,202 @@
         android:layout_height="48dp"
         android:layout_marginStart="196dp"
         android:layout_marginLeft="196dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="50dp"
+        android:inputType="none"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/distance_label"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="120dp"
+        android:text="@string/distance_label"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/distance_miles"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/distance_miles"
+        style="@style/text_view_style"
+        android:layout_width="169dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginEnd="196dp"
+        android:layout_marginRight="196dp"
+        android:inputType="none"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/distance_km"
+        style="@style/text_view_style"
+        android:layout_width="169dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="196dp"
+        android:layout_marginLeft="196dp"
+        android:layout_marginTop="170dp"
+        android:inputType="none"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cost_distance_label"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="240dp"
+        android:text="@string/cost_distance_label"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/cpm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/cpm"
+        style="@style/text_view_style"
+        android:layout_width="169dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="290dp"
+        android:layout_marginEnd="196dp"
+        android:layout_marginRight="196dp"
+        android:inputType="none"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cpk"
+        style="@style/text_view_style"
+        android:layout_width="169dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="196dp"
+        android:layout_marginLeft="196dp"
+        android:layout_marginTop="290dp"
+        android:inputType="none"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cost_fuel_label"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="360dp"
+        android:text="@string/cost_fuel_label"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/cpg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/cpg"
+        style="@style/text_view_style"
+        android:layout_width="169dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="410dp"
+        android:layout_marginEnd="196dp"
+        android:layout_marginRight="196dp"
+        android:inputType="none"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cpl"
+        style="@style/text_view_style"
+        android:layout_width="169dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="196dp"
+        android:layout_marginLeft="196dp"
+        android:layout_marginTop="410dp"
+        android:inputType="none"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mpg_label"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="480dp"
+        android:text="@string/mpg_label"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/mpg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/mpg"
+        style="@style/text_view_style"
+        android:layout_width="169dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="530dp"
+        android:layout_marginEnd="196dp"
+        android:layout_marginRight="196dp"
+        android:inputType="none"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mpl"
+        style="@style/text_view_style"
+        android:layout_width="169dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="196dp"
+        android:layout_marginLeft="196dp"
+        android:layout_marginTop="530dp"
+        android:inputType="none"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/kpg_label"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="600dp"
+        android:text="@string/kpg_label"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/kpg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/kpg"
+        style="@style/text_view_style"
+        android:layout_width="169dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="650dp"
+        android:layout_marginEnd="196dp"
+        android:layout_marginRight="196dp"
+        android:inputType="none"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/kpl"
+        style="@style/text_view_style"
+        android:layout_width="169dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="196dp"
+        android:layout_marginLeft="196dp"
+        android:layout_marginTop="650dp"
         android:inputType="none"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,3 +250,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

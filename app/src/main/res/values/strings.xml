@@ -9,4 +9,9 @@
     <string name="not_found">Entry was not found. Entry may have been deleted.</string>
     <string name="clear_all_data">Clear all data</string>
     <string name="fuel_label">Fuel used \n Gallons/Litres</string>
+    <string name="distance_label">Distance travelled \n Miles/Kilometres</string>
+    <string name="cost_distance_label">Cost per \n Mile/Kilometre</string>
+    <string name="cost_fuel_label">Cost per \n Gallon/Litre</string>
+    <string name="mpg_label">Miles per \n Gallon/Litre</string>
+    <string name="kpg_label">Kilometres per \n Gallon/Litre</string>
 </resources>

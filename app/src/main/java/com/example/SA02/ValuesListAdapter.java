@@ -33,7 +33,7 @@ import java.util.List;
         }
 
         @Override
-        public void onBindViewHolder(ValuesViewHolder holder, int position) {
+        public void onBindViewHolder(ValuesViewHolder holder, final int position) {
 
             if (mValues != null) {
                 final Values current = mValues.get(position);

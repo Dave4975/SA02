@@ -24,6 +24,7 @@ public class ShowData extends AppCompatActivity {
         setContentView(R.layout.activity_show_data);
         final ValuesListAdapter adapter = new ValuesListAdapter(this);
         ValuesViewModel mValuesViewModel;
+        final Calculator calc = new Calculator();
 
         mValuesViewModel = ViewModelProviders.of(this).get(ValuesViewModel.class);
 
@@ -42,10 +43,44 @@ public class ShowData extends AppCompatActivity {
 
                     adapter.getItemCount();
 
-                    final String edittext = String.valueOf(myValues.getAmount());
+                    final String getGallons = String.format("%.2f", calc.LitresToGallons(myValues.getAmount()));
+                    final String getLitres = String.valueOf(myValues.getAmount());
+                    final String getMileage = String.valueOf(myValues.getMileage());
+                    final String getDistanceKM = String.format("%.2f", calc.MilesToKilometres(myValues.getMileage()));
+                    final String getCPM = String.format("%.2f", calc.CPM(myValues.getCost(), myValues.getMileage()));
+                    final String getCPK = String.format("%.2f", calc.CPK(myValues.getCost(), myValues.getMileage()));
+                    final String getCPG = String.format("%.2f", calc.CPG(myValues.getCost(), myValues.getAmount()));
+                    final String getCPL = String.format("%.2f", calc.CPL(myValues.getCost(), myValues.getAmount()));
+                    final String getMPG = String.format("%.1f", calc.MPG(myValues.getMileage(), myValues.getAmount()));
+                    final String getMPL = String.format("%.1f", calc.MPL(myValues.getMileage(), myValues.getAmount()));
+                    final String getKPG = String.format("%.1f", calc.KPG(myValues.getMileage(), myValues.getAmount()));
+                    final String getKPL = String.format("%.1f", calc.KPL(myValues.getMileage(), myValues.getAmount()));
                     setContentView(R.layout.activity_show_data);
-                    TextView mText = (TextView) findViewById(R.id.fuel_litres);
-                    mText.setText(edittext);
+
+                    TextView mGallons = (TextView) findViewById(R.id.fuel_gallons);
+                    mGallons.setText(getGallons);
+                    TextView mLitres = (TextView) findViewById(R.id.fuel_litres);
+                    mLitres.setText(getLitres);
+                    TextView mMileage = (TextView) findViewById(R.id.distance_miles);
+                    mMileage.setText(getMileage);
+                    TextView mKm = (TextView) findViewById(R.id.distance_km);
+                    mKm.setText(getDistanceKM);
+                    TextView mCPM = (TextView) findViewById(R.id.cpm);
+                    mCPM.setText(getCPM);
+                    TextView mCPK = (TextView) findViewById(R.id.cpk);
+                    mCPK.setText(getCPK);
+                    TextView mCPG = (TextView) findViewById(R.id.cpg);
+                    mCPG.setText(getCPG);
+                    TextView mCPL = (TextView) findViewById(R.id.cpl);
+                    mCPL.setText(getCPL);
+                    TextView mMPG = (TextView) findViewById(R.id.mpg);
+                    mMPG.setText(getMPG);
+                    TextView mMPL = (TextView) findViewById(R.id.mpl);
+                    mMPL.setText(getMPL);
+                    TextView mKPG = (TextView) findViewById(R.id.kpg);
+                    mKPG.setText(getKPG);
+                    TextView mKPL = (TextView) findViewById(R.id.kpl);
+                    mKPL.setText(getKPL);
                 }
                 catch(Exception e) {
                     Log.d("Nick", String.valueOf(e));

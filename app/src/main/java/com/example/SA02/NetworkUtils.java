@@ -11,27 +11,26 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class NetworkUtils {
-    private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String BOOK_BASE_URL =  "https://www.googleapis.com/books/v1/volumes?";
-    // Parameter for the search string.
-    private static final String QUERY_PARAM = "q";
-    // Parameter that limits search results.
-    private static final String MAX_RESULTS = "maxResults";
-    // Parameter to filter by print type.
-    private static final String PRINT_TYPE = "printType";
+    private static final String LOG_TAG =
+            NetworkUtils.class.getSimpleName();
+
+    // Base URL for Vehicle API.
+    // https://vpic.nhtsa.dot.gov/api/
+    private static final String CAR_BASE_URL =  "https://vpic.nhtsa.dot.gov/api/vehicles/getmanufacturerdetails/989?";
+    // Parameter to specify XML return data.
+    private static final String FORMAT = "format";
 
     static String getBookInfo(String queryString){
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
-        String bookJSONString = null;
+        String carXMLString = null;
 
         try {
-            Uri builtURI = Uri.parse(BOOK_BASE_URL).buildUpon()
-                    .appendQueryParameter(QUERY_PARAM, queryString)
-                    .appendQueryParameter(MAX_RESULTS, "10")
-                    .appendQueryParameter(PRINT_TYPE, "books")
+            Uri builtURI = Uri.parse(CAR_BASE_URL).buildUpon()
+                    .appendQueryParameter(FORMAT, "XML")
                     .build();
+
             URL requestURL = new URL(builtURI.toString());
 
             urlConnection = (HttpURLConnection) requestURL.openConnection();
@@ -55,16 +54,17 @@ public class NetworkUtils {
                 // if you print out the completed buffer for debugging.
                 builder.append("\n");
             }
+
             if (builder.length() == 0) {
                 // Stream was empty. No point in parsing.
                 return null;
             }
-            bookJSONString = builder.toString();
-        }
-        catch (IOException e) {
+
+            carXMLString = builder.toString();
+
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
@@ -76,7 +76,8 @@ public class NetworkUtils {
                 }
             }
         }
-        Log.d(LOG_TAG, bookJSONString);
-        return bookJSONString;
+
+        Log.d(LOG_TAG, carXMLString);
+        return carXMLString;
     }
 }

@@ -3,118 +3,120 @@ package com.example.SA02;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.SA02.R;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 public class CarStats extends AppCompatActivity {
-    private EditText mBookInput;
-    private TextView mTitleText;
-    private TextView mAuthorText;
+
+    private TextView mReturnText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_stats);
 
-        mBookInput = (EditText)findViewById(R.id.bookInput);
-        mTitleText = (TextView)findViewById(R.id.titleText);
-        mAuthorText = (TextView)findViewById(R.id.authorText);
+        mReturnText = (TextView)findViewById(R.id.Output);
     }
+    public void fetchData(View view) { new CarAsync(mReturnText).execute(""); }
 
-    public void searchBooks(View view) {
-        // Get the search string from the input field.
-        String queryString = mBookInput.getText().toString();
+    private class CarAsync extends AsyncTask<String, Void, String> {
 
-        InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        if (inputManager != null ) {
-            inputManager.hideSoftInputFromWindow(view.getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-        new FetchBook(mTitleText, mAuthorText).execute(queryString);
-        new FetchBook(mTitleText, mAuthorText).execute(queryString);
-        mAuthorText.setText("");
-        mTitleText.setText(R.string.loading);
-    }
-
-    public class FetchBook extends AsyncTask<String,Void,String> {
-        private WeakReference<TextView> mTitleText;
-        private WeakReference<TextView> mAuthorText;
-
-        public FetchBook(TextView titleText, TextView authorText) {
-            this.mTitleText = new WeakReference<>(titleText);
-            this.mAuthorText = new WeakReference<>(authorText);
+        private WeakReference<TextView> mReturnData;
+        CarAsync(TextView carText) {
+            this.mReturnData = new WeakReference<>(carText);
         }
 
         @Override
         protected String doInBackground(String... strings) {
-            return NetworkUtils.getBookInfo(strings[0]);
+            return com.example.SA02.NetworkUtils.getBookInfo(strings[0]);
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            String mpg = null;
 
             try {
-                // Convert the response into a JSON object.
-                JSONObject jsonObject = new JSONObject(s);
-                // Get the JSONArray of book items.
-                JSONArray itemsArray = jsonObject.getJSONArray("items");
+                HashMap<String, String> data = parseXml(s);
 
-                // Initialize iterator and results fields.
-                int i = 0;
-                String title = null;
-                String authors = null;
 
-                // Look for results in the items array, exiting
-                // when both the title and author
-                // are found or when all items have been checked.
-                while (i < itemsArray.length() &&
-                        (authors == null && title == null)) {
-                    // Get the current item information.
-                    JSONObject book = itemsArray.getJSONObject(i);
-                    JSONObject volumeInfo = book.getJSONObject("volumeInfo");
-
-                    // Try to get the author and title from the current item,
-                    // catch if either field is empty and move on.
-                    try {
-                        title = volumeInfo.getString("title");
-                        authors = volumeInfo.getString("authors");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    // Move to the next item.
-                    i++;
+                try {
+                    mpg = data.get("Address");
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
-                // If both are found, display the result.
-                if (title != null && authors != null) {
-                    mTitleText.get().setText(title);
-                    mAuthorText.get().setText(authors);
+                if(mpg != null){
+                    mReturnData.get().setText(mpg);
                 } else {
-                    // If none are found, update the UI to
-                    // show failed results.
-                    mTitleText.get().setText(R.string.no_results);
-                    mAuthorText.get().setText("");
+                    mReturnData.get().setText(R.string.no_results);
                 }
 
-            } catch (Exception e) {
+            }catch (Exception e) {
                 // If onPostExecute does not receive a proper JSON string,
                 // update the UI to show failed results.
-                mTitleText.get().setText(R.string.no_results);
-                mAuthorText.get().setText("");
+                mReturnData.get().setText(R.string.no_results);
             }
+
         }
+
+        public HashMap<String, String> parseXml(String xml) {
+            XmlPullParserFactory factory;
+            String tagName = "";
+            String text = "";
+            HashMap<String, String> hm = new HashMap<String, String>();
+
+            try {
+                factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(true);
+                XmlPullParser xpp = factory.newPullParser();
+                StringReader sr = new StringReader(xml);
+                xpp.setInput(sr);
+                int eventType = xpp.getEventType();
+
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+                    if (eventType == XmlPullParser.TEXT) {
+                        text = xpp.getText(); //Pulling out node text
+                    } else if (eventType == XmlPullParser.END_TAG) {
+                        tagName = xpp.getName();
+
+                        hm.put(tagName, text);
+
+                        text = ""; //Reset text for the next node
+                    }
+                    eventType = xpp.next();
+                }
+            }
+            catch (XmlPullParserException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            catch (Exception e) {
+                Log.d("Exception attribute", e + "+" + tagName);
+            }
+
+            return hm;
+        }
+
+
     }
 }

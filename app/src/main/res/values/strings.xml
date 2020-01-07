@@ -14,4 +14,10 @@
     <string name="cost_fuel_label">Cost per \n Gallon/Litre</string>
     <string name="mpg_label">Miles per \n Gallon/Litre</string>
     <string name="kpg_label">Kilometres per \n Gallon/Litre</string>
+    <string name="car_stats">Car Statistics</string>
+    <string name="instructions">Enter a book name to find out who wrote the book. </string>
+    <string name="button_text">Search Books</string>
+    <string name="input_hint">Book Title</string>
+    <string name="no_results">No Results Found</string>
+    <string name="loading">Loading...</string>
 </resources>

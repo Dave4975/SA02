@@ -95,6 +95,10 @@ public class MainActivity extends AppCompatActivity {
             mValuesViewModel.deleteAll();
             return true;
         }
+        if (id == R.id.car_stats) {
+            Intent intent = new Intent(MainActivity.this, CarStats.class);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
    }

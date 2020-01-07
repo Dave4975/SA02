@@ -20,4 +20,12 @@
     <string name="input_hint">Car ID</string>
     <string name="no_results">No Results Found</string>
     <string name="loading">Loading...</string>
+    <string name="api_button">Get Data</string>
+    <string name="make">Make</string>
+    <string name="model">Model</string>
+    <string name="avMpg">Average Miles Per Gallon</string>
+    <string name="urbanMpg">Urban Miles Per Gallon</string>
+    <string name="extraUrbanMpg">Extra Urban Miles Per Gallon</string>
+    <string name="kpl">Kilometres Per Litre</string>
+
 </resources>

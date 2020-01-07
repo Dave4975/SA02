@@ -25,54 +25,68 @@ import java.util.HashMap;
 
 public class CarStats extends AppCompatActivity {
 
-    private TextView mReturnText;
+    private TextView mAvReturnText;
+    private TextView mUrbanMpg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_stats);
 
-        mReturnText = (TextView)findViewById(R.id.Output);
+        mAvReturnText = (TextView)findViewById(R.id.AvMilesPerGallon);
+        mUrbanMpg = (TextView)findViewById(R.id.UrbanMpg);
     }
-    public void fetchData(View view) { new CarAsync(mReturnText).execute(""); }
+    public void fetchData(View view) {
+        new CarAsync(mAvReturnText, mUrbanMpg).execute("");
+        mAvReturnText.setText(R.string.loading);
+        mUrbanMpg.setText(R.string.loading);
+    }
+
 
     private class CarAsync extends AsyncTask<String, Void, String> {
 
-        private WeakReference<TextView> mReturnData;
-        CarAsync(TextView carText) {
-            this.mReturnData = new WeakReference<>(carText);
+        private WeakReference<TextView> mAvReturn;
+        private WeakReference<TextView> mUReturn;
+        CarAsync(TextView avMpg, TextView uMpg) {
+            this.mAvReturn = new WeakReference<>(avMpg);
+            this.mUReturn = new WeakReference<>(uMpg);
         }
 
         @Override
         protected String doInBackground(String... strings) {
-            return com.example.SA02.NetworkUtils.getBookInfo(strings[0]);
+            return com.example.SA02.NetworkUtils.getMpgInfo(strings[0]);
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            String mpg = null;
+            String aMpg = null;
+            String uMpg = null;
 
             try {
                 HashMap<String, String> data = parseXml(s);
 
 
                 try {
-                    mpg = data.get("Address");
+                    aMpg = data.get("avgMpg");
+                    uMpg = data.get("cityPercent");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                if(mpg != null){
-                    mReturnData.get().setText(mpg);
+                if(aMpg != null && uMpg != null){
+                    mAvReturn.get().setText(aMpg);
+                    mUReturn.get().setText(uMpg);
                 } else {
-                    mReturnData.get().setText(R.string.no_results);
+                    mAvReturn.get().setText(R.string.no_results);
+                    mUReturn.get().setText(R.string.no_results);
                 }
 
             }catch (Exception e) {
                 // If onPostExecute does not receive a proper JSON string,
                 // update the UI to show failed results.
-                mReturnData.get().setText(R.string.no_results);
+                mAvReturn.get().setText(R.string.no_results);
+                mUReturn.get().setText(R.string.no_results);
             }
 
         }

@@ -1,6 +1,7 @@
 package com.example.SA02;
 
 import android.content.Context;
+import android.icu.text.NumberFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,12 +22,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.lang.ref.WeakReference;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
 import java.util.HashMap;
 
 public class CarStats extends AppCompatActivity {
 
     private TextView mAvReturnText;
     private TextView mUrbanMpg;
+    private TextView mEUrbanMpg;
+    private TextView mKpl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +43,15 @@ public class CarStats extends AppCompatActivity {
 
         mAvReturnText = (TextView)findViewById(R.id.AvMilesPerGallon);
         mUrbanMpg = (TextView)findViewById(R.id.UrbanMpg);
+        mEUrbanMpg = (TextView)findViewById(R.id.ExtraUrbanMpg);
+        mKpl = (TextView)findViewById(R.id.KilometresPerLitre);
     }
     public void fetchData(View view) {
-        new CarAsync(mAvReturnText, mUrbanMpg).execute("");
+        new CarAsync(mAvReturnText, mUrbanMpg, mEUrbanMpg, mKpl).execute("");
         mAvReturnText.setText(R.string.loading);
         mUrbanMpg.setText(R.string.loading);
+        mEUrbanMpg.setText(R.string.loading);
+        mKpl.setText(R.string.loading);
     }
 
 
@@ -47,9 +59,13 @@ public class CarStats extends AppCompatActivity {
 
         private WeakReference<TextView> mAvReturn;
         private WeakReference<TextView> mUReturn;
-        CarAsync(TextView avMpg, TextView uMpg) {
+        private WeakReference<TextView> mEuReturn;
+        private WeakReference<TextView> mKplReturn;
+        CarAsync(TextView avMpg, TextView uMpg, TextView eUMpg, TextView kPl) {
             this.mAvReturn = new WeakReference<>(avMpg);
             this.mUReturn = new WeakReference<>(uMpg);
+            this.mEuReturn = new WeakReference<>(eUMpg);
+            this.mKplReturn = new WeakReference<>(kPl);
         }
 
         @Override
@@ -62,6 +78,8 @@ public class CarStats extends AppCompatActivity {
             super.onPostExecute(s);
             String aMpg = null;
             String uMpg = null;
+            String eUMpg = null;
+            double kPl = 0;
 
             try {
                 HashMap<String, String> data = parseXml(s);
@@ -70,16 +88,27 @@ public class CarStats extends AppCompatActivity {
                 try {
                     aMpg = data.get("avgMpg");
                     uMpg = data.get("cityPercent");
+                    eUMpg = data.get("highwayPercent");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                if(aMpg != null && uMpg != null){
+                if(aMpg != null && uMpg != null && eUMpg != null){
+                    DecimalFormat nm = new DecimalFormat("#.##");
+                    aMpg = nm.format(Double.valueOf(aMpg));
                     mAvReturn.get().setText(aMpg);
                     mUReturn.get().setText(uMpg);
-                } else {
+                    mEuReturn.get().setText(eUMpg);
+
+                    Calculator calc = new Calculator();
+                    kPl = Double.valueOf(nm.format(calc.MPGtoKPL(Double.valueOf(aMpg))));
+                    mKplReturn.get().setText(String.valueOf(kPl));
+                }
+                else {
                     mAvReturn.get().setText(R.string.no_results);
                     mUReturn.get().setText(R.string.no_results);
+                    mEuReturn.get().setText(R.string.no_results);
+                    mKplReturn.get().setText(R.string.no_results);
                 }
 
             }catch (Exception e) {
@@ -87,6 +116,8 @@ public class CarStats extends AppCompatActivity {
                 // update the UI to show failed results.
                 mAvReturn.get().setText(R.string.no_results);
                 mUReturn.get().setText(R.string.no_results);
+                mEuReturn.get().setText(R.string.no_results);
+                mKplReturn.get().setText(R.string.no_results);
             }
 
         }

@@ -59,4 +59,9 @@ public class Calculator {
         double con1 = con/litres;
         return con1;
     }
+
+    public double MPGtoKPL(double mpg){
+        double con = mpg/2.352;
+        return con;
+    }
 }

@@ -112,7 +112,6 @@ public class CarStats extends AppCompatActivity {
                 }
 
             }catch (Exception e) {
-                // If onPostExecute does not receive a proper JSON string,
                 // update the UI to show failed results.
                 mAvReturn.get().setText(R.string.no_results);
                 mUReturn.get().setText(R.string.no_results);

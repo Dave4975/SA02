@@ -11,8 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CarStats"></activity>
-        <activity android:name=".ShowData" />
+        <activity
+            android:name=".CarStats"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+        </activity>
+        <activity
+            android:name=".ShowData" />
         <activity android:name=".NewValuesActivity" />
         <activity
             android:name=".MainActivity"

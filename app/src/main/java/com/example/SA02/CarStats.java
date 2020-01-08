@@ -35,6 +35,8 @@ public class CarStats extends AppCompatActivity {
     private TextView mUrbanMpg;
     private TextView mEUrbanMpg;
     private TextView mKpl;
+    private TextView mMakeReturnText;
+    private TextView mModelReturnText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,55 +47,73 @@ public class CarStats extends AppCompatActivity {
         mUrbanMpg = (TextView)findViewById(R.id.UrbanMpg);
         mEUrbanMpg = (TextView)findViewById(R.id.ExtraUrbanMpg);
         mKpl = (TextView)findViewById(R.id.KilometresPerLitre);
+        mMakeReturnText = (TextView)findViewById(R.id.CarMake);
+        mModelReturnText = (TextView)findViewById(R.id.CarModel);
     }
+
+
     public void fetchData(View view) {
-        new CarAsync(mAvReturnText, mUrbanMpg, mEUrbanMpg, mKpl).execute("");
+        new CarAsync(mAvReturnText, mUrbanMpg, mEUrbanMpg, mKpl, mMakeReturnText, mModelReturnText).execute("");
         mAvReturnText.setText(R.string.loading);
         mUrbanMpg.setText(R.string.loading);
         mEUrbanMpg.setText(R.string.loading);
         mKpl.setText(R.string.loading);
+        mMakeReturnText.setText(R.string.loading);
+        mModelReturnText.setText(R.string.loading);
     }
 
 
-    private class CarAsync extends AsyncTask<String, Void, String> {
+    private class CarAsync extends AsyncTask<String, Void, String[]> {
 
         private WeakReference<TextView> mAvReturn;
         private WeakReference<TextView> mUReturn;
         private WeakReference<TextView> mEuReturn;
         private WeakReference<TextView> mKplReturn;
-        CarAsync(TextView avMpg, TextView uMpg, TextView eUMpg, TextView kPl) {
+        private WeakReference<TextView> mMakeReturn;
+        private WeakReference<TextView> mModelReturn;
+        CarAsync(TextView avMpg, TextView uMpg, TextView eUMpg, TextView kPl, TextView make, TextView model) {
             this.mAvReturn = new WeakReference<>(avMpg);
             this.mUReturn = new WeakReference<>(uMpg);
             this.mEuReturn = new WeakReference<>(eUMpg);
             this.mKplReturn = new WeakReference<>(kPl);
+            this.mMakeReturn = new WeakReference<>(make);
+            this.mModelReturn = new WeakReference<>(model);
         }
 
         @Override
-        protected String doInBackground(String... strings) {
-            return com.example.SA02.NetworkUtils.getMpgInfo(strings[0]);
+        protected String[] doInBackground(String... strings) {
+            String[] test = new String[2];
+            test[0] = com.example.SA02.NetworkUtils.getMpgInfo(strings[0]);
+            test[1] = com.example.SA02.NetworkUtils.getModelInfo(strings[0]);
+            return test;
         }
 
+
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(String[] s) {
             super.onPostExecute(s);
             String aMpg = null;
             String uMpg = null;
             String eUMpg = null;
             double kPl = 0;
+            String make = null;
+            String model = null;
 
             try {
-                HashMap<String, String> data = parseXml(s);
-
+                HashMap<String, String> data = parseXml(s[0]);
+                HashMap<String, String> data1 = parseXml(s[1]);
 
                 try {
                     aMpg = data.get("avgMpg");
                     uMpg = data.get("cityPercent");
                     eUMpg = data.get("highwayPercent");
+                    make = data1.get("make");
+                    model = data1.get("model");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                if(aMpg != null && uMpg != null && eUMpg != null){
+                if(aMpg != null && uMpg != null && eUMpg != null && make != null && model != null){
                     DecimalFormat nm = new DecimalFormat("#.##");
                     aMpg = nm.format(Double.valueOf(aMpg));
                     mAvReturn.get().setText(aMpg);
@@ -103,12 +123,16 @@ public class CarStats extends AppCompatActivity {
                     Calculator calc = new Calculator();
                     kPl = Double.valueOf(nm.format(calc.MPGtoKPL(Double.valueOf(aMpg))));
                     mKplReturn.get().setText(String.valueOf(kPl));
+                    mMakeReturn.get().setText(make);
+                    mModelReturn.get().setText(model);
                 }
                 else {
                     mAvReturn.get().setText(R.string.no_results);
                     mUReturn.get().setText(R.string.no_results);
                     mEuReturn.get().setText(R.string.no_results);
                     mKplReturn.get().setText(R.string.no_results);
+                    mMakeReturn.get().setText(R.string.no_results);
+                    mModelReturn.get().setText(R.string.no_results);
                 }
 
             }catch (Exception e) {
@@ -117,16 +141,18 @@ public class CarStats extends AppCompatActivity {
                 mUReturn.get().setText(R.string.no_results);
                 mEuReturn.get().setText(R.string.no_results);
                 mKplReturn.get().setText(R.string.no_results);
+                mMakeReturn.get().setText(R.string.no_results);
+                mModelReturn.get().setText(R.string.no_results);
             }
 
         }
+
 
         public HashMap<String, String> parseXml(String xml) {
             XmlPullParserFactory factory;
             String tagName = "";
             String text = "";
             HashMap<String, String> hm = new HashMap<String, String>();
-
             try {
                 factory = XmlPullParserFactory.newInstance();
                 factory.setNamespaceAware(true);
@@ -161,6 +187,9 @@ public class CarStats extends AppCompatActivity {
             return hm;
         }
 
+        //event types
+        //3 = end tag
+        //4 = data
 
     }
 }
